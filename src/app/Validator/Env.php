@@ -14,16 +14,16 @@ class Env
      */
     public static function check(Dotenv $env)
     {
-        $dotenv->required([
+        $env->required([
             'USERNAME',
             'REPO',
             'ARCHIVE_DIR',
             'GITHUB_AUTH'
         ]);
 
-        $dotenv->required('DEBUG')->isBoolean();
+        $env->required('DEBUG')->isBoolean();
 
-        $dotenv->required('GITHUB_AUTH')
-               ->allowedValues(['none', 'token']);
+        $env->required('GITHUB_AUTH')
+            ->allowedValues(['none', 'token']);
     }
 }

@@ -3,14 +3,17 @@
 use App\Validator\Env;
 use Dotenv\Dotenv;
 use League\CLImate\CLImate;
+use Github\Client;
 use Noodlehaus\Config;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$climate = new CLImate;
-
 $dotenv = Dotenv::create(__DIR__ . '/../../');
 $dotenv->load();
+
+$climate = new CLImate;
+$github = (new Client())->api('repo')
+                        ->contents();
 
 try {
     Env::check($dotenv);
@@ -20,3 +23,4 @@ try {
 }
 
 $config = new Config(__DIR__ . '/../config');
+$climate->arguments->add($config->get('climate'));
