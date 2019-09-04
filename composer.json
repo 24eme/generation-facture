@@ -1,0 +1,12 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^3.5",
+        "league/container": "^3.3",
+        "monolog/monolog": "^2.0",
+        "hassankhan/config": "^2.1",
+        "league/climate": "^3.5",
+        "league/csv": "^9.3",
+        "knplabs/github-api": "^2.11",
+        "php-http/guzzle6-adapter": "^1.1"
+    }
+}
