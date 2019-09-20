@@ -1,0 +1,23 @@
+<?php
+
+return [
+    'company' => [
+        'name' => '24ème',
+        'type' => '',
+        'type2' => '',
+        'address' => '',
+        'cp' => '',
+        'city' => '',
+        'email' => '',
+        'siren' => '',
+        'immatriculation' => '',
+        'intra' => '',
+        'naf' => ''
+    ],
+    'extra' => [
+        'text' => '',
+        'rib' => '',
+        'iban' => '',
+        'bic' => '',
+    ]
+];

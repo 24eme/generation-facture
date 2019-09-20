@@ -9,7 +9,7 @@ return [
         'name' => [
             'longPrefix' => 'name',
             'defaultValue' => 'all',
-            'description' => 'Le nom des fichiers à générer, séparer par une virgule'
+            'description' => 'Le nom des fichiers à générer, séparés par une virgule'
         ]
     ]
 ];

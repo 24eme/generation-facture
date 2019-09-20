@@ -2,14 +2,6 @@
 
 require __DIR__ . '/../src/app/bootstrap.php';
 
-try {
-    $climate->arguments->parse();
-} catch (Exception $e) {
-    $climate->to('error')->error($e->getMessage());
-    $climate->usage();
-    exit;
-}
-
 $periode = $climate->arguments->get('periode');
 $github_username = getenv('USERNAME');
 $github_repo = getenv('REPO');
