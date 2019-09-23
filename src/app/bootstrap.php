@@ -27,6 +27,8 @@ try {
 $config_files = glob(__DIR__ . '/../config/*.php');
 $config = new Config($config_files);
 
+$clients = new Config(__DIR__ . '/../config/clients/');
+
 $climate->arguments->add($config->get('climate'));
 
 try {
