@@ -1,6 +1,6 @@
 **{{ name }}**  
-{{ type }}
-{{ type2 }}
+{{ type }}  
+{{ type2 }}  
 **{{ address }}**  
 **{{ cp }} {{ city }}**  
 Email : {{ email }}

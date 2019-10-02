@@ -16,7 +16,7 @@ if ($names === 'all') {
 
 foreach ($files as $file) {
     $client = basename($file, '.csv');
-    if (! $clients->get(strtolower($client), false)) {
+    if (! $client = $clients->get(strtolower($client), false)) {
         $climate->to('error')->error('Configuration file for '.$client.' does not exists');
         continue;
     }
@@ -24,6 +24,12 @@ foreach ($files as $file) {
     $template = file_get_contents(__DIR__ . '/../template/invoice.tex');
     $template = str_replace('##date##', 'À Paris, le '.date('d/m/Y'), $template);
     $template = str_replace('##date-long##', date('\L\e d F Y,'), $template);
+
+    $client = App\Markdown::replace(
+        __DIR__.'/../template/markdown/client.md',
+        $client
+    );
+    $template = str_replace('##client##', $markdown->parse($client), $template);
 
     $company = App\Markdown::replace(
         __DIR__.'/../template/markdown/company.md',
