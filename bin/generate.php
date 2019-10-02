@@ -14,20 +14,26 @@ if ($names === 'all') {
     }
 }
 
-$template = file_get_contents(__DIR__ . '/../template/invoice.tex');
-$template = str_replace('##date##', 'À Paris, le '.date('d/m/Y'), $template);
-$template = str_replace('##date-long##', date('\L\e d F Y,'), $template);
+foreach ($files as $file) {
+    $client = basename($file, '.csv');
+    if (! $clients->get(strtolower($client), false)) {
+        $climate->to('error')->error('Configuration file for '.$client.' does not exists');
+        continue;
+    }
 
-$company = App\Markdown::replace(
-    __DIR__.'/../template/markdown/company.md',
-    $config->get('company')
-);
-$template = str_replace('##company##', $markdown->parse($company), $template);
+    $template = file_get_contents(__DIR__ . '/../template/invoice.tex');
+    $template = str_replace('##date##', 'À Paris, le '.date('d/m/Y'), $template);
+    $template = str_replace('##date-long##', date('\L\e d F Y,'), $template);
 
-$extra = App\Markdown::replace(
-    __DIR__.'/../template/markdown/extra.md',
-    $config->get('extra')
-);
-$template = str_replace('##extra##', $markdown->parse($extra), $template);
+    $company = App\Markdown::replace(
+        __DIR__.'/../template/markdown/company.md',
+        $config->get('company')
+    );
+    $template = str_replace('##company##', $markdown->parse($company), $template);
 
-echo $template;
+    $extra = App\Markdown::replace(
+        __DIR__.'/../template/markdown/extra.md',
+        $config->get('extra')
+    );
+    $template = str_replace('##extra##', $markdown->parse($extra), $template);
+}
