@@ -1,7 +1,7 @@
 composer.phar
 /vendor/
 src/config/invoice.php
-src/config/clients/
+src/config/clients/*
 !src/config/clients/example.yml
 out/
 
