@@ -17,7 +17,7 @@ if ($names === 'all') {
 foreach ($files as $file) {
     $client = basename($file, '.csv');
     if (! $client = $clients->get(strtolower($client), false)) {
-        $climate->to('error')->error('Configuration file for '.$client.' does not exists');
+        $climate->to('error')->error('Configuration file for '.basename($file, '.csv').' does not exists');
         continue;
     }
 
