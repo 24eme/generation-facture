@@ -37,6 +37,13 @@ foreach ($files as $file) {
     );
     $template = str_replace('##company##', $markdown->parse($company), $template);
 
+    $list_of_prestation = [];
+    $prestations = App\Markdown::replace(
+        __DIR__.'/../template/markdown/prestation.md',
+        $list_of_prestation
+    );
+    $template = str_replace('##items##', $markdown->parse($prestations), $template);
+
     $extra = App\Markdown::replace(
         __DIR__.'/../template/markdown/extra.md',
         $config->get('extra')
