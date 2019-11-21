@@ -8,11 +8,18 @@
         "knplabs/github-api": "^2.11",
         "php-http/guzzle6-adapter": "^1.1",
         "cebe/markdown-latex": "^1.1",
-        "symfony/yaml": "^4.3"
+        "symfony/yaml": "^4.3",
+        "robmorgan/phinx": "^0.11.1"
     },
     "autoload": {
         "psr-4": {
             "App\\": "src/app"
         }
+    },
+    "scripts": {
+	"post-install-cmd": [
+	    "vendor/bin/phinx migrate -e development",
+	    "vendor/bin/phinx seed:run -e development"
+	]
     }
 }
