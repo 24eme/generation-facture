@@ -1,6 +1,8 @@
 <?php
 
 use App\Validator\Env;
+use App\Database\Connector\SQLite;
+use App\Database\Invoice;
 use Dotenv\Dotenv;
 use League\CLImate\CLImate;
 use Github\Client;
@@ -19,7 +21,13 @@ $markdown = new GithubMarkdown();
 
 try {
     Env::check($dotenv);
+    $invoice = new Invoice(
+        new SQLite(getenv('DATABASE_PATH'))
+    );
 } catch (RuntimeException $e) {
+    $climate->to('error')->error($e->getMessage);
+    exit;
+} catch (Exception $e) {
     $climate->to('error')->error($e->getMessage);
     exit;
 }

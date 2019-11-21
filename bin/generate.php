@@ -14,6 +14,8 @@ if ($names === 'all') {
     }
 }
 
+$invoice_number = $invoice->getInvoiceNumber();
+
 foreach ($files as $file) {
     $client = basename($file, '.csv');
     if (! $client = $clients->get(strtolower($client), false)) {
@@ -49,4 +51,8 @@ foreach ($files as $file) {
         $config->get('extra')
     );
     $template = str_replace('##extra##', $markdown->parse($extra), $template);
+
+    $invoice_number++;
 }
+
+$invoice->setInvoiceNumber($invoice_number);
