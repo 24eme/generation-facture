@@ -38,7 +38,8 @@ class Invoice
      */
     public function setInvoiceNumber(int $value)
     {
-        $number = filter_var($value, FILTER_SANITIZE_NUMBER_INT | FILTER_VALIDATE_INT);
+        $number = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+        $number = filter_var($number, FILTER_VALIDATE_INT);
 
         $stmt = $this->database->prepare('UPDATE invoice_number SET invoice_number = :number');
         $stmt->bindParam(':number', $number, \PDO::PARAM_INT);
