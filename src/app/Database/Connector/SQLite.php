@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Database\Connector;
+
 class SQLite implements DatabaseInterface
 {
     /** @var $connector The \PDO connector */
@@ -12,18 +14,18 @@ class SQLite implements DatabaseInterface
      */
     public function __construct(string $database_path)
     {
-        if (! extension_loaded('sqlite') || ! extension_loaded('pdo'))
+        if (! extension_loaded('pdo_sqlite') || ! extension_loaded('pdo'))
         {
             throw new \Exception('Missing database extension');
         }
 
         if (! file_exists($database_path)) {
-            throw new \Exception($database_path . ' does not exists');
+            throw new \Exception($database_path . ' does not exist');
         }
 
         $this->connector = new \PDO('sqlite:'.$database_path);
     }
-    
+
     /**
      * Return the connector
      *

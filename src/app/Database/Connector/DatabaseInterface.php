@@ -2,6 +2,6 @@
 
 namespace App\Database\Connector;
 
-class DatabaseInterface
+interface DatabaseInterface
 {
 }

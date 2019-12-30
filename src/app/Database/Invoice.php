@@ -16,7 +16,7 @@ class Invoice
      */
     public function __construct(DatabaseInterface $database)
     {
-        $this->database = $database;
+        $this->database = $database->getConnector();
     }
 
     /**
@@ -40,7 +40,7 @@ class Invoice
     {
         $number = filter_var($value, FILTER_SANITIZE_NUMBER_INT | FILTER_VALIDATE_INT);
 
-        $stmt = $this->database->exec('UPDATE invoice_number SET invoice_number = :number');
+        $stmt = $this->database->prepare('UPDATE invoice_number SET invoice_number = :number');
         $stmt->bindParam(':number', $number, \PDO::PARAM_INT);
 
         return $stmt->execute();

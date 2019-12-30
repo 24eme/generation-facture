@@ -25,10 +25,10 @@ try {
         new SQLite(getenv('DATABASE_PATH'))
     );
 } catch (RuntimeException $e) {
-    $climate->to('error')->error($e->getMessage);
+    $climate->to('error')->error($e->getMessage());
     exit;
 } catch (Exception $e) {
-    $climate->to('error')->error($e->getMessage);
+    $climate->to('error')->error($e->getMessage());
     exit;
 }
 
