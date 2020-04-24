@@ -1,5 +1,7 @@
 <?php
 
+use App\Compactor;
+
 require __DIR__ . '/../src/app/bootstrap.php';
 
 $files = [];
@@ -23,6 +25,9 @@ foreach ($files as $file) {
         $climate->to('error')->error('Configuration file for '.$client_name.' does not exists');
         continue;
     }
+
+    $temps = Compactor::compact($file);
+    $lignes_prestations = Compactor::buildPrestaLine($temps, $config->get('prices'));
 
     $template = file_get_contents(__DIR__ . '/../template/invoice.tex');
     $template = str_replace('##date##', 'À Paris, le '.date('d/m/Y'), $template);

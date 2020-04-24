@@ -1,0 +1,9 @@
+<?php
+
+return [
+    'Foo' => [           // tag in csv
+        'price' => 1024  // price per day
+        'label' => 'Bar' // Label displayed
+    ],
+    // ...
+];

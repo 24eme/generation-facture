@@ -35,6 +35,13 @@ try {
 $config_files = glob(__DIR__ . '/../config/*.php');
 $config = new Config($config_files);
 
+if (empty($config->get('prices', []))) {
+    $climate->to('error')->error(
+        "Whoops ! It looks like you don't have any prices. Please check ".__DIR__."/../config/prices.php"
+    );
+    exit;
+}
+
 $clients = new Config(__DIR__ . '/../config/clients/');
 
 $climate->arguments->add($config->get('climate'));
