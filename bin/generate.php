@@ -17,8 +17,6 @@ if ($names === 'all') {
     }
 }
 
-$invoice_number = $invoice->getInvoiceNumber();
-
 foreach ($files as $file) {
     $client_name = basename($file, '.csv');
     if (! $client = $clients->get(strtolower($client_name), false)) {
@@ -35,7 +33,7 @@ foreach ($files as $file) {
 
     $invoice_title = App\Markdown::replace(
         __DIR__.'/../template/markdown/invoice_title.md',
-        ['invoice_number' => $periode . str_pad($invoice_number, 6, 0, STR_PAD_LEFT)]
+        ['invoice_number' => $periode . str_pad('000000', 6, 0, STR_PAD_LEFT)]
     );
     $template = str_replace('##invoice##', $markdown->parseParagraph($invoice_title), $template);
 
@@ -65,8 +63,4 @@ foreach ($files as $file) {
     $template = str_replace('##extra##', $markdown->parseParagraph($extra), $template);
 
     file_put_contents(__DIR__.'/../out/'.$client_name.'.tex', $template);
-
-    $invoice_number++;
 }
-
-$invoice->setInvoiceNumber($invoice_number);

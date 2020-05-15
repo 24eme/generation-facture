@@ -18,8 +18,7 @@ class Env
             'USERNAME',
             'REPO',
             'ARCHIVE_DIR',
-            'GITHUB_AUTH',
-            'DATABASE_PATH'
+            'GITHUB_AUTH'
         ]);
 
         $env->required('DEBUG')->isBoolean();

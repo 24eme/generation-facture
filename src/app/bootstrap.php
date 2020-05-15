@@ -1,13 +1,10 @@
 <?php
 
 use App\Validator\Env;
-use App\Database\Connector\SQLite;
-use App\Database\Invoice;
 use Dotenv\Dotenv;
 use League\CLImate\CLImate;
 use Github\Client;
 use Noodlehaus\Config;
-use cebe\markdown\latex\GithubMarkdown;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -17,17 +14,10 @@ $dotenv->load();
 $climate = new CLImate;
 $github = (new Client())->api('repo')
                         ->contents();
-$markdown = new GithubMarkdown();
 
 try {
     Env::check($dotenv);
-    $invoice = new Invoice(
-        new SQLite(getenv('DATABASE_PATH'))
-    );
 } catch (RuntimeException $e) {
-    $climate->to('error')->error($e->getMessage());
-    exit;
-} catch (Exception $e) {
     $climate->to('error')->error($e->getMessage());
     exit;
 }
