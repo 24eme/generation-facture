@@ -17,9 +17,5 @@
         }
     },
     "scripts": {
-	"post-install-cmd": [
-	    "vendor/bin/phinx migrate -e development",
-	    "vendor/bin/phinx seed:run -e development"
-	]
     }
 }
