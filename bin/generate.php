@@ -1,20 +1,24 @@
 <?php
 
 use App\Compactor;
+use App\Reader\Csv;
 
 require __DIR__ . '/../src/app/bootstrap.php';
 
 $files = [];
 $save_dir = $config->get('save_dir');
-$names = $climate->arguments->get('name');
 $periode = $climate->arguments->get('periode');
+$file = $climate->arguments->get('file');
+$names = ($climate->arguments->defined('names')) ? $climate->arguments->get('names') : null;
 
-if ($names === 'all') {
-    $files = glob($save_dir . '*.csv');
-} else {
-    foreach (explode(',', $names) as $name) {
-        $files[] = $save_dir . $name . '.csv';
-    }
+try {
+    $csv = new Csv();
+    $csv->setClients($names);
+    $files = $csv->createArrayFrom($file);
+    var_dump($files);
+} catch (Exception $e) {
+    $climate->to('error')->error($e->getMessage());
+    exit;
 }
 
 foreach ($files as $file) {

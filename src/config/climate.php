@@ -6,10 +6,13 @@ return [
             'required' => true,
             'description' => 'La période à générer'
         ],
-        'name' => [
-            'longPrefix' => 'name',
-            'defaultValue' => 'all',
+        'names' => [
+            'longPrefix' => 'names',
             'description' => 'Le nom des fichiers à générer, séparés par une virgule'
+        ],
+        'file' => [
+            'required' => true,
+            'description' => 'Le fichier des temps'
         ]
     ]
 ];
