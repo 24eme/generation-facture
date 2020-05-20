@@ -1,7 +1,7 @@
-#numero_facture;Date facture;Nom Client;Intitule ligne;Nombre jours;Prix unitaire;Total HT
+numero_facture;Date facture;Nom Client;Intitule ligne;Nombre jours;Prix unitaire;Total HT
 20200430000100;20200430;Client1;Forfait numero 1;;;1000
-20200430000100;20200430;Client1;TMA ;570;1;
+20200430000100;20200430;Client1;TMA;570;1;;
 20200430000100;20200430;Client1;TMA DT;780;1,5;
-20200430000101;20200430;Client2;TMA ;570;2;
+20200430000101;20200430;Client2;TMA;570;2;
 20200430000101;20200430;Client2;TMA DT;780;1;
 20200430000101;20200430;Client2;REUNION;780;1;

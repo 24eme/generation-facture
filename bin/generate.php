@@ -1,29 +1,26 @@
 <?php
 
 use App\Compactor;
+use App\Reader\Csv;
 
 require __DIR__ . '/../src/app/bootstrap.php';
 
 $filters = [];
 
 $save_dir = $config->get('save_dir');
-$facture_file = $save_dir.'/factures.csv';
-
-if(!realpath($facture_file)){
-  $climate->to('error')->error('Facture file for not present for the moment for this periode.');
-  return;
-}
-var_dump(realpath($facture_file)); exit;
-$names = $climate->arguments->get('name');
 $periode = $climate->arguments->get('periode');
+$file = $climate->arguments->get('file');
+$names = ($climate->arguments->defined('names')) ? $climate->arguments->get('names') : null;
 
-if ($names !== 'all') {
-    foreach (explode(',', $names) as $name) {
-        $filters[] = $name;
-    }
+try {
+    $csv = new Csv();
+    $csv->setClients($names);
+    $files = $csv->createArrayFrom($file);
+    var_dump($files);
+} catch (Exception $e) {
+    $climate->to('error')->error($e->getMessage());
+    exit;
 }
-
-
 
 foreach ($files as $file) {
     $client_name = basename($file, '.csv');
@@ -42,7 +39,7 @@ foreach ($files as $file) {
 
     $invoice_title = App\Markdown::replace(
         __DIR__.'/../template/markdown/invoice_title.md',
-        ['invoice_number' => $periode . str_pad($invoice_number, 6, 0, STR_PAD_LEFT)]
+        ['invoice_number' => $periode . str_pad('000000', 6, 0, STR_PAD_LEFT)]
     );
     $template = str_replace('##invoice##', $markdown->parseParagraph($invoice_title), $template);
 
@@ -72,8 +69,4 @@ foreach ($files as $file) {
     $template = str_replace('##extra##', $markdown->parseParagraph($extra), $template);
 
     file_put_contents(__DIR__.'/../out/'.$client_name.'.tex', $template);
-
-    $invoice_number++;
 }
-
-$invoice->setInvoiceNumber($invoice_number);
