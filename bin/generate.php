@@ -4,23 +4,30 @@ use App\Compactor;
 
 require __DIR__ . '/../src/app/bootstrap.php';
 
-$files = [];
+$filters = [];
+
 $save_dir = $config->get('save_dir');
+$facture_file = $save_dir.'/factures.csv';
+
+if(!realpath($facture_file)){
+  $climate->to('error')->error('Facture file for not present for the moment for this periode.');
+  return;
+}
+var_dump(realpath($facture_file)); exit;
 $names = $climate->arguments->get('name');
 $periode = $climate->arguments->get('periode');
 
-if ($names === 'all') {
-    $files = glob($save_dir . '*.csv');
-} else {
+if ($names !== 'all') {
     foreach (explode(',', $names) as $name) {
-        $files[] = $save_dir . $name . '.csv';
+        $filters[] = $name;
     }
 }
 
-$invoice_number = $invoice->getInvoiceNumber();
+
 
 foreach ($files as $file) {
     $client_name = basename($file, '.csv');
+    var_dump($client_name);
     if (! $client = $clients->get(strtolower($client_name), false)) {
         $climate->to('error')->error('Configuration file for '.$client_name.' does not exists');
         continue;
