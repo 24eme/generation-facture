@@ -2,8 +2,10 @@
 
 namespace App\Reader;
 
+use App\Transformer\CsvTransformer;
 use League\Csv\Reader;
 use League\Csv\Statement;
+use League\Csv\Writer;
 
 class Csv
 {
@@ -49,5 +51,21 @@ class Csv
     public function setClients(?string $clients): void
     {
         $this->clients = (empty($clients)) ? [] : explode(',', $clients);
+    }
+
+    public function transform(string $from, string $to): string
+    {
+        if (is_file($from) === false) {
+            throw new \Exception($file . ' is not a valid file');
+        }
+
+        if (is_writable(dirname($to)) === false || is_file($to)) {
+            //throw new \Exception($to . ' is not writable');
+        }
+
+        $in = CsvTransformer::read($from);
+        $out = CsvTransformer::write($to, $in);
+
+        return $out;
     }
 }
