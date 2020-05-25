@@ -9,5 +9,8 @@ $output_file = $config->get('output_file');
 $periode = $climate->arguments->get('periode');
 $file = $climate->arguments->get('file');
 
-$csv = new Csv();
-echo $csv->transform($file, $save_dir.$output_file);
+try {
+    CsvTransformer::transform($file, $save_dir.$output_file);
+} catch (\Exception $e) {
+    $climate->to('error')->error($e->getMessage());
+}

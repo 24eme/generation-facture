@@ -63,8 +63,8 @@ class Csv
             //throw new \Exception($to . ' is not writable');
         }
 
-        $in = CsvTransformer::read($from);
-        $out = CsvTransformer::write($to, $in);
+        $with = CsvTransformer::read($from);
+        $out = CsvTransformer::write($to, $with);
 
         return $out;
     }
