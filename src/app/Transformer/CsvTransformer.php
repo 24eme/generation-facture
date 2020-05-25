@@ -32,7 +32,7 @@ class CsvTransformer
         return $rows;
     }
 
-    public static function write(string $to, array $with, string $delimiter = ';'): int
+    public static function write(string $to, array $with, string $periode, string $start, string $delimiter = ';'): void
     {
         $out = Writer::createFromPath($to, 'w');
         $out->setDelimiter($delimiter);
@@ -43,19 +43,13 @@ class CsvTransformer
 
         $out->insertOne(['numero_facture', 'Date facture', 'Nom client', 'Intitule ligne', 'Nombre jours', 'Prix unitaire', 'Total HT']);
 
-        $i = 0;
+        $invoice_number = (int) $periode . str_pad($start, 3, '0', STR_PAD_LEFT);
         foreach ($with as $client => $prestations) {
+            echo "Client: $client - Invoice: $invoice_number - Presta: ".count($prestations).PHP_EOL;
             foreach ($prestations as $name => $price) {
-                $out->insertOne([
-                    'facture',
-                    'periode',
-                    $client,
-                    $name,
-                    $price
-                ]);
+                $out->insertOne([$invoice_number, $periode, $client, $name, $price]);
             }
+            $invoice_number++;
         }
-
-        return 0;
     }
 }

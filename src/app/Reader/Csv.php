@@ -10,6 +10,8 @@ use League\Csv\Writer;
 class Csv
 {
     private $clients = [];
+    private $periode = '20200131';
+    private $start = '0';
 
     public function createArrayFrom(string $file): array
     {
@@ -53,6 +55,16 @@ class Csv
         $this->clients = (empty($clients)) ? [] : explode(',', $clients);
     }
 
+    public function setPeriode(string $periode): void
+    {
+        $this->periode = $periode;
+    }
+
+    public function setStartingAt(string $start): void
+    {
+        $this->start = $start;
+    }
+
     public function transform(string $from, string $to): string
     {
         if (is_file($from) === false) {
@@ -64,7 +76,7 @@ class Csv
         }
 
         $with = CsvTransformer::read($from);
-        $out = CsvTransformer::write($to, $with);
+        $out = CsvTransformer::write($to, $with, $this->periode, $this->start);
 
         return $out;
     }

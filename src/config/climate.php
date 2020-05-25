@@ -27,13 +27,18 @@ return [
             ]
         ],
         'compact' => [
-            'file' => [
-                'required' => true,
-                'description' => 'Le fichier à compacter'
-            ],
             'periode' => [
                 'required' => true,
                 'description' => 'La période à générer'
+            ],
+            'start' => [
+                'required' => true,
+                'description' => 'Le numéro de facture sans la partie de période',
+                'defaultValue' => '000'
+            ],
+            'file' => [
+                'required' => true,
+                'description' => 'Le fichier à compacter'
             ]
         ]
     ]
