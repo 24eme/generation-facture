@@ -10,7 +10,8 @@ $periode = $climate->arguments->get('periode');
 $file = $climate->arguments->get('file');
 
 try {
-    CsvTransformer::transform($file, $save_dir.$output_file);
+    $csv = new Csv();
+    $csv->transform($file, $save_dir.$output_file.uniqid());
 } catch (\Exception $e) {
     $climate->to('error')->error($e->getMessage());
 }
