@@ -1,0 +1,131 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[top=3.5cm, bottom=3cm, left=1cm, right=1cm, headheight=5.5cm, headsep=0mm, marginparwidth=0cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{units}
+\usepackage{fp}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{lastpage}
+\usepackage{truncate}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{longfbox}
+
+\definecolor{noir}{rgb}{0,0,0}
+\definecolor{blanc}{rgb}{1,1,1}
+\definecolor{verttresclair}{rgb}{0.90,0.90,0.90}
+\definecolor{vertclair}{rgb}{0.70,0.70,0.70}
+\definecolor{vertfonce}{rgb}{0.17,0.29,0.28}
+\definecolor{vertmedium}{rgb}{0.63,0.73,0.22}
+
+
+
+\def\LOGO{./templates/logo.png}
+\def\FACTUREDATE{XX/XX/XXXX}
+\def\FACTURERIB{ {{infosExtra.rib }} }
+\def\FACTUREIBAN{ {{infosExtra.iban }} }
+\def\FACTUREBIC{ {{infosExtra.bic }} }
+\def\FACTURENUMERO{XXXXXXXXXXXXX}
+\def\FACTUREREGLEMENT{ {% autoescape %}{{ infosExtra.text|raw }}{% endautoescape %} \\ ~ \\}
+
+
+\def\COMPANYNAME{ {{ infosCompany.name }} }
+\def\COMPANYTYPE{ {{ infosCompany.type }} }
+\def\COMPANYOTHERTYPE{ {{ infosCompany.type2 }} }
+\def\COMPANYADRESS{ {{ infosCompany.address }} }
+\def\COMPANYCP{ {{ infosCompany.cp }} }
+\def\COMPANYCITY{ {{ infosCompany.city }} }
+\def\COMPANYEMAIL{ {{ infosCompany.email }} }
+
+\def\COMPANYSIREN{ {{ infosCompany.siren }} }
+\def\COMPANYIMMATRICULATION{ {{ infosCompany.immatriculation }} }
+\def\COMPANYINTRA{ {{ infosCompany.intra }} }
+\def\COMPANYNAF{ {{ infosCompany.naf }} }
+
+\def\CLIENTNAME{ {{ infosClient.name }} }
+\def\CLIENTADRESS{ {{ infosClient.adress }}~ }
+\def\CLIENTOTHERADRESS{ {{ infosClient.adress2 }}~ }
+\def\CLIENTCP{ {{ infosClient.cp }} }
+\def\CLIENTCITY{ {{ infosClient.city }} }
+
+
+\def\FACTURETOTALHT{0.0}
+\def\FACTURETOTALTVA{0.0}
+\def\FACTURETOTALTTC{0.0}
+
+
+\pagestyle{fancy}
+\pagenumbering{gobble}
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\textheight}{18.5cm}
+
+
+\fancyhead[L]{\includegraphics[width=3cm]{\LOGO}}
+\fancyhead[R]{À Paris, le \FACTUREDATE \vspace{2cm}}
+\fancyfoot[LO]{\textbf{RÈGLEMENT}\\~\\ \FACTUREREGLEMENT \textbf{RIB : } \FACTURERIB \\ \textbf{IBAN : } \FACTUREIBAN \\ \textbf{BIC : } \FACTUREBIC}
+
+
+\begin{document}
+\begin{minipage}{0.5\textwidth}
+\textbf{\COMPANYNAME} \\ \COMPANYTYPE \\ \COMPANYOTHERTYPE  \\ \textbf{\COMPANYADRESS} \\ \textbf{\COMPANYCP \COMPANYCITY} \\ Email : \COMPANYEMAIL \\
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\flushright{\textbf{
+\CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTOTHERADRESS \\ \CLIENTCP \\ \CLIENTCITY }}
+\end{minipage}
+
+\begin{minipage}{0.5\textwidth}
+\textbf{\\N° SIREN : \COMPANYSIREN } \\
+Immatriculation : \COMPANYIMMATRICULATION \\
+N° TVA Intracommunautaire : \COMPANYINTRA \\
+Code NAF :  \COMPANYNAF \\
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\end{minipage}
+
+\flushright{\textbf{Le \FACTUREDATE,}}
+\vspace{1cm}
+\flushleft{\large{\textbf{FACTURE N° \FACTURENUMERO}}}
+\vspace{1cm}
+
+\renewcommand{\arraystretch}{1.5}
+\arrayrulecolor{vertclair}
+\begin{tabular}{|m{9.98cm}|>{\raggedleft}m{1.5cm}|>{\raggedleft}m{2.1cm}|>{\raggedleft}m{1.9cm}|}
+  \hline
+  \rowcolor{verttresclair} \textbf{Prestations} & \multicolumn{1}{c|}{\textbf{Temps (jH)}} & \multicolumn{1}{c|}{\textbf{Tarif HT (€ / jH)}} &  \multicolumn{1}{c|}{\textbf{Total HT}}  \tabularnewline
+  \hline
+  {% for libelle,ligneFacture in facture.presta %}
+    {{ libelle }} & {{ ligneFacture.prix }} & {{ ligneFacture.quantite }} & {{ ligneFacture.total }}
+   \tabularnewline
+   \hline
+  {% endfor %}
+\end{tabular}
+
+\vspace{0.5cm}
+
+
+\flushright{
+\renewcommand{\arraystretch}{1.5}
+\arrayrulecolor{vertclair}
+\begin{tabular}{m{2.1cm}|>{\raggedleft}m{3.8cm}|>{\raggedleft}m{2.2cm}|}
+  \hhline{|~|-|-}
+  & \cellcolor{verttresclair} \textbf{TOTAL HT} & \textbf{\FACTURETOTALHT~€} \tabularnewline
+  \hhline{|~|-|-}
+  & \cellcolor{verttresclair} \textbf{TOTAL TVA 20\%}  & \textbf{\FACTURETOTALTVA~€} \tabularnewline
+  \hhline{|~|-|-}
+  & \cellcolor{verttresclair} \textbf{NET À PAYER}  & \textbf{\FACTURETOTALTTC~€} \tabularnewline
+  \hhline{|~|-|-}
+\end{tabular}
+}
+\end{document}
