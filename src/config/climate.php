@@ -2,17 +2,44 @@
 
 return [
     'climate' => [
-        'periode' => [
-            'required' => true,
-            'description' => 'La période à générer'
+        'generate' => [
+            'periode' => [
+                'required' => true,
+                'description' => 'La période à générer'
+            ],
+            'names' => [
+                'longPrefix' => 'names',
+                'description' => 'Le nom des fichiers à générer, séparés par une virgule'
+            ],
+            'file' => [
+                'required' => true,
+                'description' => 'Le fichier des temps'
+            ]
         ],
-        'names' => [
-            'longPrefix' => 'names',
-            'description' => 'Le nom des fichiers à générer, séparés par une virgule'
+        'download' => [
+            'periode' => [
+                'required' => true,
+                'description' => 'La période à télécharger'
+            ],
+            'names' => [
+                'longPrefix' => 'names',
+                'description' => 'Le nom des fichiers à générer, séparés par une virgule'
+            ]
         ],
-        'file' => [
-            'required' => true,
-            'description' => 'Le fichier des temps'
+        'compact' => [
+            'periode' => [
+                'required' => true,
+                'description' => 'La période à générer'
+            ],
+            'start' => [
+                'required' => true,
+                'description' => 'Le numéro de facture sans la partie de période',
+                'defaultValue' => '000'
+            ],
+            'file' => [
+                'required' => true,
+                'description' => 'Le fichier à compacter'
+            ]
         ]
     ]
 ];

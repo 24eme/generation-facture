@@ -2,12 +2,16 @@
 
 namespace App\Reader;
 
+use App\Transformer\CsvTransformer;
 use League\Csv\Reader;
 use League\Csv\Statement;
+use League\Csv\Writer;
 
 class Csv
 {
     private $clients = [];
+    private $periode = '20200131';
+    private $start = '0';
 
     public function createArrayFrom(string $file): array
     {
@@ -49,5 +53,29 @@ class Csv
     public function setClients(?string $clients): void
     {
         $this->clients = (empty($clients)) ? [] : explode(',', $clients);
+    }
+
+    public function setPeriode(string $periode): void
+    {
+        $this->periode = $periode;
+    }
+
+    public function setStartingAt(string $start): void
+    {
+        $this->start = $start;
+    }
+
+    public function transform(string $from, string $to): void
+    {
+        if (is_file($from) === false) {
+            throw new \Exception($file . ' is not a valid file');
+        }
+
+        if (is_writable(dirname($to)) === false || is_file($to)) {
+            //throw new \Exception($to . ' is not writable');
+        }
+
+        $with = CsvTransformer::read($from);
+        CsvTransformer::write($to, $with, $this->periode, $this->start);
     }
 }

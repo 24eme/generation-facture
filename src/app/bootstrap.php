@@ -40,7 +40,7 @@ if (empty($config->get('prices', []))) {
 
 $clients = new Config(__DIR__ . '/../config/clients/');
 
-$climate->arguments->add($config->get('climate'));
+$climate->arguments->add($config->get('climate.'.basename(realpath($argv[0]), '.php')));
 
 try {
     $climate->arguments->parse();
