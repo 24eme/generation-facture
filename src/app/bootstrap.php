@@ -15,6 +15,12 @@ $climate = new CLImate;
 $github = (new Client())->api('repo')
                         ->contents();
 
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../templates');
+$twig = new \Twig\Environment($loader, [
+        'cache' => __DIR__ . '/../../cache',
+        ]);
+
+
 try {
     Env::check($dotenv);
 } catch (RuntimeException $e) {

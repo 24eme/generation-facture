@@ -2,8 +2,10 @@
 
 use App\Compactor;
 use App\Reader\Csv;
+use App\Lib\FactureLatex;
 
 require __DIR__ . '/../src/app/bootstrap.php';
+
 
 $filters = [];
 
@@ -15,58 +17,21 @@ $names = ($climate->arguments->defined('names')) ? $climate->arguments->get('nam
 try {
     $csv = new Csv();
     $csv->setClients($names);
-    $files = $csv->createArrayFrom($file);
-    var_dump($files);
+    $factures = $csv->createArrayFrom($file);
 } catch (Exception $e) {
     $climate->to('error')->error($e->getMessage());
     exit;
 }
 
-foreach ($files as $file) {
-    $client_name = basename($file, '.csv');
-    var_dump($client_name);
-    if (! $client = $clients->get(strtolower($client_name), false)) {
-        $climate->to('error')->error('Configuration file for '.$client_name.' does not exists');
-        continue;
-    }
+foreach ($factures as $idfacture => $facture) {
+    $pdf = new FactureLatex($facture, $twig);
 
-    $temps = Compactor::compact($file);
-    $lignes_prestations = Compactor::buildPrestaLine($temps, $config->get('prices'));
+    $client = mb_strtolower($facture["client"]);
+    $pdf->setInfosClient($clients->get($client));
+    $pdf->setInfosCompany($config->get("company"));
+    $pdf->setInfosExtra($config->get("extra"));
 
-    $template = file_get_contents(__DIR__ . '/../template/invoice.tex');
-    $template = str_replace('##date##', 'À Paris, le '.date('d/m/Y'), $template);
-    $template = str_replace('##date-long##', date('\L\e d F Y,'), $template);
-
-    $invoice_title = App\Markdown::replace(
-        __DIR__.'/../template/markdown/invoice_title.md',
-        ['invoice_number' => $periode . str_pad('000000', 6, 0, STR_PAD_LEFT)]
-    );
-    $template = str_replace('##invoice##', $markdown->parseParagraph($invoice_title), $template);
-
-    $client = App\Markdown::replace(
-        __DIR__.'/../template/markdown/client.md',
-        $client
-    );
-    $template = str_replace('##client##', $markdown->parseParagraph($client), $template);
-
-    $company = App\Markdown::replace(
-        __DIR__.'/../template/markdown/company.md',
-        $config->get('company')
-    );
-    $template = str_replace('##company##', $markdown->parseParagraph($company), $template);
-
-    $list_of_prestation = [];
-    $prestations = App\Markdown::replace(
-        __DIR__.'/../template/markdown/prestation.md',
-        $list_of_prestation
-    );
-    $template = str_replace('##items##', $markdown->parseParagraph($prestations), $template);
-
-    $extra = App\Markdown::replace(
-        __DIR__.'/../template/markdown/extra.md',
-        $config->get('extra')
-    );
-    $template = str_replace('##extra##', $markdown->parseParagraph($extra), $template);
-
-    file_put_contents(__DIR__.'/../out/'.$client_name.'.tex', $template);
+    $pdfContent = $pdf->getPDFFileContents();
+    $pdfName = $pdf->getPublicFileName();
+    file_put_contents(__DIR__.'/../out/'.$pdfName.'.tex', $pdfContent);
 }
