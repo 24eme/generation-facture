@@ -21,4 +21,4 @@ try {
     $climate->to('error')->error($e->getMessage());
 }
 
-$climate->info('File : ' . $output);
+$climate->info('File : ' . realpath($output));

@@ -65,7 +65,7 @@ class Csv
         $this->start = $start;
     }
 
-    public function transform(string $from, string $to): string
+    public function transform(string $from, string $to): void
     {
         if (is_file($from) === false) {
             throw new \Exception($file . ' is not a valid file');
@@ -76,8 +76,6 @@ class Csv
         }
 
         $with = CsvTransformer::read($from);
-        $out = CsvTransformer::write($to, $with, $this->periode, $this->start);
-
-        return $out;
+        CsvTransformer::write($to, $with, $this->periode, $this->start);
     }
 }
