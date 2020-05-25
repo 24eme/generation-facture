@@ -6,6 +6,7 @@ use Exception;
 
 class FactureLatex {
 
+  private $idFacture = null;
   private $facture = array();
   private $infosClient = array();
   private $infosCompany = array();
@@ -16,7 +17,8 @@ class FactureLatex {
   const OUTPUT_TYPE_LATEX = 'latex';
 
 
-  function __construct(array $facture, $twig) {
+  function __construct($idFacture, array $facture, $twig) {
+    $this->idFacture = $idFacture;
     $this->facture = $facture;
     $this->twig = $twig;
   }
@@ -34,7 +36,7 @@ class FactureLatex {
   }
 
   private function getLatexDestinationDir() {
-    return realpath(__DIR__.'/../../../out/latex');
+    return realpath(__DIR__.'/../../../out/pdf');
   }
 
   protected function getTEXWorkingDir() {
@@ -43,7 +45,7 @@ class FactureLatex {
 
   public function generatePDF() {
     $cmdCompileLatex = '/usr/bin/pdflatex -output-directory="'.$this->getTEXWorkingDir().'" -synctex=1 -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
-  //  var_dump($cmdCompileLatex); exit;
+
     $output = shell_exec($cmdCompileLatex);
 
     if (!preg_match('/Transcript written/', $output) || preg_match('/Fatal error/', $output)) {
@@ -67,7 +69,7 @@ class FactureLatex {
   }
 
   public function getPDFFile() {
-    $filename = $this->getLatexDestinationDir().$this->getPublicFileName();
+    $filename = $this->getLatexDestinationDir()."/".$this->getPublicFileName();
     // if(file_exists($filename))
     //   return $filename;
     $tmpfile = $this->generatePDF();
@@ -113,20 +115,23 @@ class FactureLatex {
 
   private function getFileNameWithoutExtention() {
 
-    return  'facture_'.$this->infosCompany["name"] .'_'.$this->infosClient["name"].'_';
+    return  $this->idFacture.'_'.'Facture'.$this->infosCompany["name"] .'_'.$this->infosClient["name"];
   }
 
 
   public function getLatexFileNameWithoutExtention() {
+
     return $this->getTEXWorkingDir().$this->getFileNameWithoutExtention();
   }
 
   public function getLatexFileContents() {
-      return $this->twig->render('invoice_tex.twig', ['facture' => $this->facture, 'infosClient' => $this->infosClient, 'infosCompany' => $this->infosCompany, 'infosExtra' => $this->infosExtra]);
+
+      return $this->twig->render('invoice_tex.twig', ['idFacture' => $this->idFacture, 'facture' => $this->facture, 'infosClient' => $this->infosClient, 'infosCompany' => $this->infosCompany, 'infosExtra' => $this->infosExtra]);
   }
 
   public function getPublicFileName($extention = '.pdf') {
-    return  'facture'.$extention;
+
+      return $this->getFileNameWithoutExtention().$extention;
   }
 
   public function setInfosCompany($infosCompany){

@@ -24,7 +24,8 @@ try {
 }
 
 foreach ($factures as $idfacture => $facture) {
-    $pdf = new FactureLatex($facture, $twig);
+  
+    $pdf = new FactureLatex($idfacture, $facture, $twig);
 
     $client = mb_strtolower($facture["client"]);
     $pdf->setInfosClient($clients->get($client));
@@ -33,5 +34,5 @@ foreach ($factures as $idfacture => $facture) {
 
     $pdfContent = $pdf->getPDFFileContents();
     $pdfName = $pdf->getPublicFileName();
-    file_put_contents(__DIR__.'/../out/'.$pdfName.'.tex', $pdfContent);
+    //file_put_contents(__DIR__.'/../out/pdf/'.$pdfName, $pdfContent);
 }
