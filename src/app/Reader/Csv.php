@@ -36,7 +36,8 @@ class Csv
             if (array_key_exists($numero_facture, $array) === false) {
                 $array[$numero_facture] = [
                     'client' => $record["Nom client"],
-                    'presta' => []
+                    'presta' => [],
+                    'total_ht' => 0.0
                 ];
             }
             $array[$numero_facture]['presta'][$record["Intitule ligne"]] = [
@@ -44,6 +45,13 @@ class Csv
                 'prix' => $record['Prix unitaire'],
                 'total' => $record['Total HT']
                 ];
+            $array[$numero_facture]['total_ht']+=$record['Total HT'];
+        }
+
+        foreach ($array as $numero_facture => $facture) {
+          $facture['total_tva'] = 0.2 * $facture['total_ht'];
+          $facture['total_ttc'] = $facture['total_ht']+$facture['total_tva'];
+          $array[$numero_facture] = $facture;
         }
 
         return $array;

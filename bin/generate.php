@@ -29,8 +29,9 @@ foreach ($factures as $idfacture => $facture) {
     $client = mb_strtolower($facture["client"]);
 
     $facturePdf->setInfosClient($clients->get($client));
-    $facturePdf->setInfosClient($clients->get($client));
     $facturePdf->setInfosCompany($config->get("company"));
+    $facturePdf->setInfosExtra($config->get("extra"));
     $facturePdf->setDate($periode);
-    $facturePdf->getPDFFile();
+    $path = $facturePdf->getPDFFile();
+    $climate->info('Nouvelle facture dans : ' . realpath($path));
 }
