@@ -38,6 +38,9 @@ class FactureLatex {
   }
 
   private function getLatexDestinationDir() {
+    if($path = $this->getJeancloudePath()){
+      return $path;
+    }
     return realpath(__DIR__.'/../../../out/pdf');
   }
 
@@ -78,7 +81,7 @@ class FactureLatex {
       throw new sfException("pdf not created :(");
     }
     if (!rename($tmpfile, $filename)) {
-      throw new sfException("not possible to rename $tmpfile to $filename");
+      throw new Exception("not possible to rename $tmpfile to $filename");
     }
     $this->cleanPDF();
     return $filename;
@@ -116,7 +119,7 @@ class FactureLatex {
 
   private function getFileNameWithoutExtention() {
 
-    return  $this->idFacture.'_'.'Facture'.$this->infosCompany["name"] .'_'.$this->infosClient["name"];
+    return  $this->idFacture.'_Facture'.str_replace("è", "e", $this->infosCompany["name"]).'_'.$this->infosClient["name"];
   }
 
 
@@ -168,6 +171,14 @@ class FactureLatex {
 
   public function setDate($date){
     $this->date = DateTime::createFromFormat("Ymd",$date);
+  }
+
+  public function setJeancloudePath($jeancloude_path){
+    $this->jeancloude_path = $jeancloude_path;
+  }
+
+  public function getJeancloudePath(){
+    return $this->jeancloude_path;
   }
 
 }

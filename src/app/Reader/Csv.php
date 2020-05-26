@@ -11,6 +11,7 @@ class Csv
 {
     private $prices = null;
     private $clients = [];
+    private $excluded_clients = [];
     private $periode = '20200131';
     private $start = '0';
 
@@ -32,6 +33,9 @@ class Csv
         $records = $stmt->process($reader);
 
         foreach ($records as $record) {
+            if(in_array($record["Nom client"],$this->excluded_clients)){
+              continue;
+            }
             $numero_facture = $record["numero_facture"];
             if (array_key_exists($numero_facture, $array) === false) {
                 $array[$numero_facture] = [
@@ -70,6 +74,11 @@ class Csv
     public function setPeriode(string $periode): void
     {
         $this->periode = $periode;
+    }
+
+    public function setExcludedClients(?array $excluded_clients): void
+    {
+        $this->excluded_clients = (empty($excluded_clients)) ? [] : $excluded_clients;
     }
 
     public function setStartingAt(string $start): void

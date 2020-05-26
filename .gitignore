@@ -3,6 +3,7 @@ composer.phar
 /cache/
 src/config/invoice.php
 src/config/prices.php
+src/config/excluded_clients.php
 src/config/clients/*
 !src/config/clients/example.yml
 out/
