@@ -5,6 +5,8 @@ use Dotenv\Dotenv;
 use League\CLImate\CLImate;
 use Github\Client;
 use Noodlehaus\Config;
+use Twig\Environment;
+use Twig\Extra\Intl\IntlExtension;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -16,10 +18,11 @@ $github = (new Client())->api('repo')
                         ->contents();
 
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../templates');
-$twig = new \Twig\Environment($loader, [
+$twig = new Environment($loader, [
         'cache' => __DIR__ . '/../../cache',
         ]);
 
+$twig->addExtension(new IntlExtension());
 
 try {
     Env::check($dotenv);

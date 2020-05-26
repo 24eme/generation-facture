@@ -1,8 +1,8 @@
-\documentclass[a4paper, 12pt]{article}
+\documentclass[a4paper, 10pt]{letter}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage[top=3.5cm, bottom=3cm, left=1cm, right=1cm, headheight=5.5cm, headsep=0mm, marginparwidth=0cm]{geometry}
+\usepackage[top=3.5cm, bottom=3cm, left=1.5cm, right=1.5cm, headheight=5.5cm, headsep=0mm, marginparwidth=0cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
@@ -21,6 +21,10 @@
 \usepackage{hhline}
 \usepackage{longfbox}
 
+\renewcommand\sfdefault{phv}
+\renewcommand{\familydefault}{\sfdefault}
+
+
 \definecolor{noir}{rgb}{0,0,0}
 \definecolor{blanc}{rgb}{1,1,1}
 \definecolor{verttresclair}{rgb}{0.90,0.90,0.90}
@@ -31,16 +35,17 @@
 
 
 \def\LOGO{./templates/logo.png}
-\def\FACTUREDATE{XX/XX/XXXX}
+\def\FACTUREDATE{ {{date|date("m/d/Y")}} }
+\def\FACTUREDATEFR{ {{date|format_date(pattern="d MMMM Y")}} }
 \def\FACTURERIB{ {{infosExtra.rib }} }
 \def\FACTUREIBAN{ {{infosExtra.iban }} }
 \def\FACTUREBIC{ {{infosExtra.bic }} }
 \def\FACTURENUMERO{ {{idFacture }} }
-\def\FACTUREREGLEMENT{ {% autoescape %}{{ infosExtra.text|raw }}{% endautoescape %} \\ ~ \\}
+\def\FACTUREREGLEMENT{ {{infosExtra.text }} \\ ~ \\}
 
 
-\def\COMPANYNAME{ {{ infosCompany.name }} }
-\def\COMPANYTYPE{ {{ infosCompany.type }} }
+\def\COMPANYNAME{~\\{{infosCompany.name }} }
+\def\COMPANYTYPE{ {{infosCompany.type }} }
 \def\COMPANYOTHERTYPE{ {{ infosCompany.type2 }} }
 \def\COMPANYADRESS{ {{ infosCompany.address }} }
 \def\COMPANYCP{ {{ infosCompany.cp }} }
@@ -52,11 +57,11 @@
 \def\COMPANYINTRA{ {{ infosCompany.intra }} }
 \def\COMPANYNAF{ {{ infosCompany.naf }} }
 
-\def\CLIENTNAME{ {{ infosClient.name }} }
-\def\CLIENTADRESS{ {{ infosClient.adress }}~ }
-\def\CLIENTOTHERADRESS{ {{ infosClient.adress2 }}~ }
-\def\CLIENTCP{ {{ infosClient.cp }} }
-\def\CLIENTCITY{ {{ infosClient.city }} }
+\def\CLIENTNAME{ {{ infosClient.name }}~}
+\def\CLIENTADRESS{ {{ infosClient.address }}~}
+\def\CLIENTOTHERADRESS{ {{ infosClient.address2 }}~}
+\def\CLIENTCP{ {{ infosClient.cp }}~}
+\def\CLIENTCITY{ {{ infosClient.city }}~}
 
 
 \def\FACTURETOTALHT{0.0}
@@ -81,8 +86,7 @@
 \textbf{\COMPANYNAME} \\ \COMPANYTYPE \\ \COMPANYOTHERTYPE  \\ \textbf{\COMPANYADRESS} \\ \textbf{\COMPANYCP \COMPANYCITY} \\ Email : \COMPANYEMAIL \\
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\flushright{\textbf{
-\CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTOTHERADRESS \\ \CLIENTCP \\ \CLIENTCITY }}
+\flushright{\textbf{ \CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTOTHERADRESS \\ \CLIENTCP\CLIENTCITY \\ }}
 \end{minipage}
 
 \begin{minipage}{0.5\textwidth}
@@ -94,19 +98,23 @@ Code NAF :  \COMPANYNAF \\
 \begin{minipage}{0.5\textwidth}
 \end{minipage}
 
-\flushright{\textbf{Le \FACTUREDATE,}}
+\flushright{\textbf{Le \FACTUREDATEFR,}}
 \vspace{1cm}
 \flushleft{\large{\textbf{FACTURE N° \FACTURENUMERO}}}
 \vspace{1cm}
 
 \renewcommand{\arraystretch}{1.5}
 \arrayrulecolor{vertclair}
-\begin{tabular}{|m{9.98cm}|>{\raggedleft}m{1.5cm}|>{\raggedleft}m{2.1cm}|>{\raggedleft}m{1.9cm}|}
+\begin{tabular}{|m{8.7cm}|>{\raggedleft}m{1.5cm}|>{\raggedleft}m{2.1cm}|>{\raggedleft}m{2.2cm}|}
   \hline
   \rowcolor{verttresclair} \textbf{Prestations} & \multicolumn{1}{c|}{\textbf{Temps (jH)}} & \multicolumn{1}{c|}{\textbf{Tarif HT (€ / jH)}} &  \multicolumn{1}{c|}{\textbf{Total HT}}  \tabularnewline
   \hline
   {% for libelle,ligneFacture in facture.presta %}
-    {{ libelle }} & {{ ligneFacture.prix }} & {{ ligneFacture.quantite }} & {{ ligneFacture.total }}
+    {% if ligneFacture.qte %}
+    {{ libelle }} & {{ ligneFacture.qte }} & {{ ligneFacture.prix }} & {{ ligneFacture.total }}
+    {% else %}
+    {{ libelle }} & ~ & ~ & {{ ligneFacture.total }}
+    {% endif %}
    \tabularnewline
    \hline
   {% endfor %}

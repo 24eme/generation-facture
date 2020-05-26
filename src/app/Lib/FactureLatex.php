@@ -3,10 +3,12 @@
 namespace App\Lib;
 
 use Exception;
+use \DateTime;
 
 class FactureLatex {
 
   private $idFacture = null;
+  private $periode = null;
   private $facture = array();
   private $infosClient = array();
   private $infosCompany = array();
@@ -45,7 +47,6 @@ class FactureLatex {
 
   public function generatePDF() {
     $cmdCompileLatex = '/usr/bin/pdflatex -output-directory="'.$this->getTEXWorkingDir().'" -synctex=1 -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
-
     $output = shell_exec($cmdCompileLatex);
 
     if (!preg_match('/Transcript written/', $output) || preg_match('/Fatal error/', $output)) {
@@ -125,8 +126,12 @@ class FactureLatex {
   }
 
   public function getLatexFileContents() {
-
-      return $this->twig->render('invoice_tex.twig', ['idFacture' => $this->idFacture, 'facture' => $this->facture, 'infosClient' => $this->infosClient, 'infosCompany' => $this->infosCompany, 'infosExtra' => $this->infosExtra]);
+      return $this->twig->render('invoice_tex.twig', ['idFacture' => $this->idFacture,
+                                                      'date' => $this->date,
+                                                      'facture' => $this->facture,
+                                                      'infosClient' => $this->infosClient,
+                                                      'infosCompany' => $this->infosCompany,
+                                                      'infosExtra' => $this->infosExtra]);
   }
 
   public function getPublicFileName($extention = '.pdf') {
@@ -159,6 +164,10 @@ class FactureLatex {
   public function getInfosClient(){
 
     return $infosClient;
+  }
+
+  public function setDate($date){
+    $this->date = DateTime::createFromFormat("Ymd",$date);
   }
 
 }

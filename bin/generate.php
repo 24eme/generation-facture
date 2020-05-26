@@ -24,15 +24,13 @@ try {
 }
 
 foreach ($factures as $idfacture => $facture) {
-  
-    $pdf = new FactureLatex($idfacture, $facture, $twig);
+    $facturePdf = new FactureLatex($idfacture, $facture, $twig);
 
     $client = mb_strtolower($facture["client"]);
-    $pdf->setInfosClient($clients->get($client));
-    $pdf->setInfosCompany($config->get("company"));
-    $pdf->setInfosExtra($config->get("extra"));
 
-    $pdfContent = $pdf->getPDFFileContents();
-    $pdfName = $pdf->getPublicFileName();
-    //file_put_contents(__DIR__.'/../out/pdf/'.$pdfName, $pdfContent);
+    $facturePdf->setInfosClient($clients->get($client));
+    $facturePdf->setInfosClient($clients->get($client));
+    $facturePdf->setInfosCompany($config->get("company"));
+    $facturePdf->setDate($periode);
+    $facturePdf->getPDFFile();
 }

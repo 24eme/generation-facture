@@ -10,12 +10,14 @@ $periode = $climate->arguments->get('periode');
 $file = $climate->arguments->get('file');
 $start = $climate->arguments->get('start');
 
+$prices = $config->get('prices');
 try {
     $output = $save_dir.$output_file.'.'.uniqid();
 
     $csv = new Csv();
     $csv->setPeriode($periode);
     $csv->setStartingAt($start);
+    $csv->setPrices($prices);
     $csv->transform($file, $output);
 } catch (\Exception $e) {
     $climate->to('error')->error($e->getMessage());

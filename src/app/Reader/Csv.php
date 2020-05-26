@@ -9,6 +9,7 @@ use League\Csv\Writer;
 
 class Csv
 {
+    private $prices = null;
     private $clients = [];
     private $periode = '20200131';
     private $start = '0';
@@ -38,12 +39,11 @@ class Csv
                     'presta' => []
                 ];
             }
-
             $array[$numero_facture]['presta'][$record["Intitule ligne"]] = [
-                'prix' => $record['Prix unitaire'],
                 'qte' => $record['Nombre jours'],
+                'prix' => $record['Prix unitaire'],
                 'total' => $record['Total HT']
-            ];
+                ];
         }
 
         return $array;
@@ -52,6 +52,11 @@ class Csv
     public function setClients(?string $clients): void
     {
         $this->clients = (empty($clients)) ? [] : explode(',', $clients);
+    }
+
+    public function setPrices(?array $prices): void
+    {
+        $this->prices = (empty($prices)) ? [] : $prices;
     }
 
     public function setPeriode(string $periode): void
@@ -75,6 +80,6 @@ class Csv
         }
 
         $with = CsvTransformer::read($from);
-        CsvTransformer::write($to, $with, $this->periode, $this->start);
+        CsvTransformer::write($to, $with, $this->periode, $this->start,';', $this->prices);
     }
 }
