@@ -41,7 +41,7 @@
 \def\FACTUREIBAN{ {{infosExtra.iban }} }
 \def\FACTUREBIC{ {{infosExtra.bic }} }
 \def\FACTURENUMERO{ {{idFacture }} }
-\def\FACTUREREGLEMENT{ {{infosExtra.text }} \\ ~ \\}
+\def\FACTUREREGLEMENT{ \small{ {% autoescape %}{{infosExtra.text|raw }}{% endautoescape %} \\ ~ \\ } }
 
 
 \def\COMPANYNAME{~\\{{infosCompany.name }} }
@@ -62,6 +62,9 @@
 \def\CLIENTOTHERADRESS{ {{ infosClient.address2 }}~}
 \def\CLIENTCP{ {{ infosClient.cp }}~}
 \def\CLIENTCITY{ {{ infosClient.city }}~}
+{% if infosClient.siret %}
+\def\CLIENTSIRET{ {{ infosClient.siret }}~}
+{% endif %}
 
 
 \def\FACTURETOTALHT{ {{facture.total_ht|number_format(2, ',', ' ')}} }
@@ -86,7 +89,7 @@
 \textbf{\COMPANYNAME} \\ \COMPANYTYPE \\ \COMPANYOTHERTYPE  \\ \textbf{\COMPANYADRESS} \\ \textbf{\COMPANYCP \COMPANYCITY} \\ Email : \COMPANYEMAIL \\
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\flushright{\textbf{ \CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTOTHERADRESS \\ \CLIENTCP\CLIENTCITY \\ }}
+\flushright{\textbf{ \CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTOTHERADRESS \\ \CLIENTCP\CLIENTCITY \\ {% if infosClient.siret %}~\\ N° SIRET :~\CLIENTSIRET \\{% endif %} }}
 \end{minipage}
 
 \begin{minipage}{0.5\textwidth}
