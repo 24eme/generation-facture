@@ -35,7 +35,7 @@
 
 
 \def\LOGO{./templates/logo.png}
-\def\FACTUREDATE{ {{date|date("m/d/Y")}} }
+\def\FACTUREDATE{ {{date|date("d/m/Y")}} }
 \def\FACTUREDATEFR{ {{date|format_date(pattern="d MMMM Y")}} }
 \def\FACTURERIB{ {{infosExtra.rib }} }
 \def\FACTUREIBAN{ {{infosExtra.iban }} }
@@ -108,21 +108,33 @@ Code NAF :  \COMPANYNAF \\
 
 \renewcommand{\arraystretch}{1.5}
 \arrayrulecolor{vertclair}
+{% if facture.forfait %}
+\begin{tabular}{|m{14.8cm}|>{\raggedleft}m{2.2cm}|}
+  \hline
+  \rowcolor{verttresclair} \textbf{Prestations} &  \multicolumn{1}{c|}{\textbf{Total HT}}  \tabularnewline
+  \hline
+  {% for libelle,ligneFacture in facture.presta %}
+    {{ libelle }} & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
+   \tabularnewline
+   \hline
+  {% endfor %}
+\end{tabular}
+{% else %}
 \begin{tabular}{|m{9.6cm}|>{\raggedleft}m{1.5cm}|>{\raggedleft}m{2.1cm}|>{\raggedleft}m{2.2cm}|}
   \hline
   \rowcolor{verttresclair} \textbf{Prestations} & \multicolumn{1}{c|}{\textbf{Temps (jH)}} & \multicolumn{1}{c|}{\textbf{Tarif HT (€ / jH)}} &  \multicolumn{1}{c|}{\textbf{Total HT}}  \tabularnewline
   \hline
   {% for libelle,ligneFacture in facture.presta %}
     {% if ligneFacture.qte %}
-    {{ libelle }} & {{ ligneFacture.qte|number_format(2, ',', ' ') }} & {{ ligneFacture.prix|number_format(2, ',', ' ') }}~€ & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
+    {{ libelle }} & {{ ligneFacture.qte }} & {{ ligneFacture.prix|number_format(2, ',', ' ') }}~€ & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
     {% else %}
-    {{ libelle }} & ~ & ~ & {{ ligneFacture.total }}
+    {{ libelle }} & ~ & ~ & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
     {% endif %}
    \tabularnewline
    \hline
   {% endfor %}
 \end{tabular}
-
+{% endif %}
 \vspace{0.5cm}
 
 

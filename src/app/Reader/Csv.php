@@ -15,6 +15,8 @@ class Csv
     private $periode = '20200131';
     private $start = '0';
 
+    const FORFAIT_TERM = "Forfait";
+
     public function createArrayFrom(string $file): array
     {
         if (is_file($file) === false) {
@@ -41,7 +43,8 @@ class Csv
                 $array[$numero_facture] = [
                     'client' => $record["Nom client"],
                     'presta' => [],
-                    'total_ht' => 0.0
+                    'total_ht' => 0.0,
+                    'forfait' => true
                 ];
             }
             $array[$numero_facture]['presta'][$record["Intitule ligne"]] = [
@@ -49,6 +52,9 @@ class Csv
                 'prix' => $record['Prix unitaire'],
                 'total' => $record['Total HT']
                 ];
+            if($record["Intitule ligne"] != self::FORFAIT_TERM){
+              $array[$numero_facture]['forfait'] = false;
+            }
             $array[$numero_facture]['total_ht']+=$record['Total HT'];
         }
 
