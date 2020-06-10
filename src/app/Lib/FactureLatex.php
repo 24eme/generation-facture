@@ -118,7 +118,6 @@ class FactureLatex {
   }
 
   private function getFileNameWithoutExtention() {
-
     return  $this->idFacture.'_Facture'.str_replace("è", "e", $this->infosCompany["name"]).'_'.str_replace(" ","",$this->infosClient["name"]);
   }
 

@@ -43,7 +43,7 @@ class CsvTransformer
 
         $out->insertOne(['numero_facture', 'Date facture', 'Nom client', 'Intitule ligne', 'Nombre jours', 'Prix unitaire', 'Total HT']);
 
-        $invoice_number = (int) $periode . str_pad($start, 3, '0', STR_PAD_LEFT);
+        $invoice_number = (int) $periode . str_pad($start, 5, '0', STR_PAD_LEFT);
         foreach ($with as $client => $prestations) {
             echo "Client: $client - Invoice: $invoice_number - Presta: ".count($prestations).PHP_EOL;
             foreach ($prestations as $name => $nbhours_or_price) {

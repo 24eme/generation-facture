@@ -36,7 +36,7 @@
 
 \def\LOGO{./templates/logo.png}
 \def\FACTUREDATE{ {{date|date("d/m/Y")}} }
-\def\FACTUREDATEFR{ {{date|format_date(pattern="d MMMM Y")}} }
+\def\FACTUREDATEFR{ {{date|format_date(pattern="d MMMM Y")}}}
 \def\FACTURERIB{ {{infosExtra.rib }} }
 \def\FACTUREIBAN{ {{infosExtra.iban }} }
 \def\FACTUREBIC{ {{infosExtra.bic }} }
@@ -58,8 +58,7 @@
 \def\COMPANYNAF{ {{ infosCompany.naf }} }
 
 \def\CLIENTNAME{ {{ infosClient.name }}~}
-\def\CLIENTADRESS{ {{ infosClient.address }}~}
-\def\CLIENTOTHERADRESS{ {{ infosClient.address2 }}~}
+\def\CLIENTADRESS{ {{ infosClient.address }}~{% if infosClient.address2 %} \\ {{ infosClient.address2 }}~ {% endif %} }
 \def\CLIENTCP{ {{ infosClient.cp }}~}
 \def\CLIENTCITY{ {{ infosClient.city }}~}
 {% if infosClient.siret %}
@@ -86,10 +85,10 @@
 
 \begin{document}
 \begin{minipage}{0.5\textwidth}
-\textbf{\COMPANYNAME} \\ \COMPANYTYPE \\ \COMPANYOTHERTYPE  \\ \textbf{\COMPANYADRESS} \\ \textbf{\COMPANYCP \COMPANYCITY} \\ Email : \COMPANYEMAIL \\
+\textbf{\COMPANYNAME} \\ \small{ \COMPANYTYPE \\ \COMPANYOTHERTYPE } \\ \textbf{\COMPANYADRESS} \\ \textbf{\COMPANYCP \COMPANYCITY} \\ Email : \COMPANYEMAIL \\
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
-\flushright{\textbf{ \CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTOTHERADRESS \\ \CLIENTCP\CLIENTCITY \\ {% if infosClient.siret %}~\\ N° SIRET :~\CLIENTSIRET \\{% endif %} }}
+\flushright{\textbf{ \CLIENTNAME \\ \CLIENTADRESS \\ \CLIENTCP\CLIENTCITY \\ {% if infosClient.siret %}~\\ N° SIRET :~\CLIENTSIRET \\{% endif %} }}
 \end{minipage}
 
 \begin{minipage}{0.5\textwidth}
@@ -126,9 +125,9 @@ Code NAF :  \COMPANYNAF \\
   \hline
   {% for libelle,ligneFacture in facture.presta %}
     {% if ligneFacture.qte %}
-    {{ libelle }} & {{ ligneFacture.qte }} & {{ ligneFacture.prix|number_format(2, ',', ' ') }}~€ & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
+    {{ libelle }} & {{ ligneFacture.qte|number_format(1, ',', ' ') }} & {{ ligneFacture.prix|number_format(2, ',', ' ') }}~€ & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
     {% else %}
-    {{ libelle }} & ~ & ~ & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
+    \multicolumn{3}{|l|}{ {{ libelle }} } & {{ ligneFacture.total|number_format(2, ',', ' ') }}~€
     {% endif %}
    \tabularnewline
    \hline
@@ -145,7 +144,7 @@ Code NAF :  \COMPANYNAF \\
   \hhline{|~|-|-}
   & \cellcolor{verttresclair} \textbf{Total HT} & \textbf{\FACTURETOTALHT€} \tabularnewline
   \hhline{|~|-|-}
-  & \cellcolor{verttresclair} \textbf{Taux TVA (en \%)} & 20,00\% \tabularnewline
+  & \cellcolor{verttresclair} \textbf{Taux TVA (en \%)} & 20,00~\% \tabularnewline
   \hhline{|~|-|-}
   & \cellcolor{verttresclair} \textbf{Montant TVA}  & \FACTURETOTALTVA€ \tabularnewline
   \hhline{|~|-|-}

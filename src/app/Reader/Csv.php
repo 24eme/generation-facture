@@ -52,7 +52,7 @@ class Csv
                 'prix' => $record['Prix unitaire'],
                 'total' => $record['Total HT']
                 ];
-            if($record["Intitule ligne"] != self::FORFAIT_TERM){
+            if($record['Nombre jours']){
               $array[$numero_facture]['forfait'] = false;
             }
             $array[$numero_facture]['total_ht']+=$record['Total HT'];
@@ -63,7 +63,6 @@ class Csv
           $facture['total_ttc'] = $facture['total_ht']+$facture['total_tva'];
           $array[$numero_facture] = $facture;
         }
-
         return $array;
     }
 
