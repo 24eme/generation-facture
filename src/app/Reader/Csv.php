@@ -47,15 +47,19 @@ class Csv
                     'forfait' => true
                 ];
             }
+            $total_ht = $record['Total HT'];
+            if(!$total_ht && $record['Nombre jours'] && $record['Prix unitaire']){
+              $total_ht = $record['Nombre jours'] * $record['Prix unitaire'];
+            }
             $array[$numero_facture]['presta'][$record["Intitule ligne"]] = [
                 'qte' => $record['Nombre jours'],
                 'prix' => $record['Prix unitaire'],
-                'total' => $record['Total HT']
+                'total' => $total_ht
                 ];
             if($record['Nombre jours']){
               $array[$numero_facture]['forfait'] = false;
             }
-            $array[$numero_facture]['total_ht']+=$record['Total HT'];
+            $array[$numero_facture]['total_ht']+=$total_ht;
         }
 
         foreach ($array as $numero_facture => $facture) {
