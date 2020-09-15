@@ -38,6 +38,9 @@ class Csv
             if(in_array($record["Nom client"],$this->excluded_clients)){
               continue;
             }
+	    $record['Total HT'] = str_replace(',', '.', $record['Total HT']);
+	    $record['Nombre jours'] = str_replace(',', '.', $record['Nombre jours']);
+	    $record['Prix unitaire'] = str_replace(',', '.', $record['Prix unitaire']);
             $numero_facture = $record["numero_facture"];
             if (array_key_exists($numero_facture, $array) === false) {
                 $array[$numero_facture] = [
