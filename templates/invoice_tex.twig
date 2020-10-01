@@ -44,10 +44,10 @@
 \def\FACTUREREGLEMENT{ \small{ {% autoescape %}{{infosExtra.text|raw }}{% endautoescape %} \\ ~ \\ } }
 
 
-\def\COMPANYNAME{~\\{{infosCompany.name }} }
+\def\COMPANYNAME{~\\{% autoescape %}{{infosCompany.name|raw }}{% endautoescape %} }
 \def\COMPANYTYPE{ {{infosCompany.type }} }
 \def\COMPANYOTHERTYPE{ {{ infosCompany.type2 }} }
-\def\COMPANYADRESS{ {{ infosCompany.address }} }
+\def\COMPANYADRESS{ {% autoescape %}{{ infosCompany.address|raw }}{% endautoescape %} }
 \def\COMPANYCP{ {{ infosCompany.cp }} }
 \def\COMPANYCITY{ {{ infosCompany.city }} }
 \def\COMPANYEMAIL{ {{ infosCompany.email }} }
@@ -57,8 +57,8 @@
 \def\COMPANYINTRA{ {{ infosCompany.intra }} }
 \def\COMPANYNAF{ {{ infosCompany.naf }} }
 
-\def\CLIENTNAME{ {{ infosClient.name }}~}
-\def\CLIENTADRESS{ {{ infosClient.address }}~{% if infosClient.address2 %} \\ {{ infosClient.address2 }}~ {% endif %} }
+\def\CLIENTNAME{ {% autoescape %}{{ infosClient.name|raw }}{% endautoescape %}~}
+\def\CLIENTADRESS{ {% autoescape %}{{ infosClient.address|raw }}{% endautoescape %}~{% if infosClient.address2 %} \\ {% autoescape %}{{ infosClient.address2|raw }}{% endautoescape %}~ {% endif %} }
 \def\CLIENTCP{ {{ infosClient.cp }}~}
 \def\CLIENTCITY{ {{ infosClient.city }}~}
 {% if infosClient.siret %}
