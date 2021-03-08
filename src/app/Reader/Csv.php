@@ -12,7 +12,6 @@ class Csv
     private $prices = null;
     private $clients = [];
     private $excluded_clients = [];
-    private $periode = '20200131';
     private $start = '0';
 
     const FORFAIT_TERM = "Forfait";
@@ -82,11 +81,6 @@ class Csv
     public function setPrices(?array $prices): void
     {
         $this->prices = (empty($prices)) ? [] : $prices;
-    }
-
-    public function setPeriode(string $periode): void
-    {
-        $this->periode = $periode;
     }
 
     public function setExcludedClients(?array $excluded_clients): void

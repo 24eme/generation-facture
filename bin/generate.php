@@ -10,7 +10,6 @@ require __DIR__ . '/../src/app/bootstrap.php';
 $filters = [];
 
 $save_dir = $config->get('save_dir');
-$periode = $climate->arguments->get('periode');
 $file = $climate->arguments->get('file');
 $jeancloude_path = $config->get('jeancloude_path');
 $excluded_clients = $config->get('excluded_clients');
