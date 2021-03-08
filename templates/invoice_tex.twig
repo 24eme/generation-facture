@@ -57,7 +57,7 @@
 \def\COMPANYINTRA{ {{ infosCompany.intra }} }
 \def\COMPANYNAF{ {{ infosCompany.naf }} }
 
-\def\CLIENTNAME{ {% autoescape %}{{ infosClient.name|raw }}{% endautoescape %}~}
+\def\CLIENTNAME{ {% autoescape false %}{{ infosClient.name|raw }}{% endautoescape %}~}
 \def\CLIENTADRESS{ {% autoescape %}{{ infosClient.address|raw }}{% endautoescape %}~{% if infosClient.address2 %} \\ {% autoescape %}{{ infosClient.address2|raw }}{% endautoescape %}~ {% endif %} }
 \def\CLIENTCP{ {{ infosClient.cp }}~}
 \def\CLIENTCITY{ {{ infosClient.city }}~}
