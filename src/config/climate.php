@@ -10,6 +10,10 @@ return [
             'file' => [
                 'required' => true,
                 'description' => 'Le fichier des temps'
+            ],
+            'output_path' => [
+                'required' => false,
+                'description' => 'Dossier de sortie'
             ]
         ],
         'download' => [
