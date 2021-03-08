@@ -35,8 +35,8 @@
 
 
 \def\LOGO{./templates/logo.png}
-\def\FACTUREDATE{ {{date|date("d/m/Y")}} }
-\def\FACTUREDATEFR{ {{date|format_date(pattern="d MMMM Y")}}}
+\def\FACTUREDATE{ {{facture.date|date("d/m/Y")}} }
+\def\FACTUREDATEFR{ {{facture.date|format_date(pattern="d MMMM Y")}}}
 \def\FACTURERIB{ {{infosExtra.rib }} }
 \def\FACTUREIBAN{ {{infosExtra.iban }} }
 \def\FACTUREBIC{ {{infosExtra.bic }} }

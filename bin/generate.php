@@ -34,7 +34,6 @@ foreach ($factures as $idfacture => $facture) {
     $facturePdf->setInfosClient($clients->get($client));
     $facturePdf->setInfosCompany($config->get("company"));
     $facturePdf->setInfosExtra($config->get("extra"));
-    $facturePdf->setDate($periode);
     $facturePdf->setJeancloudePath($jeancloude_path);
     $path = $facturePdf->getPDFFile();
     $climate->info('Nouvelle facture dans : ' . str_replace(" ","\ ",$path));

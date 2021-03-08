@@ -63,6 +63,7 @@ class Csv
               $array[$numero_facture]['forfait'] = false;
             }
             $array[$numero_facture]['total_ht']+=$total_ht;
+	        $array[$numero_facture]['date'] = \DateTime::createFromFormat("Ymd",$record['Date facture']);
         }
 
         foreach ($array as $numero_facture => $facture) {

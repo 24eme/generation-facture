@@ -3,7 +3,6 @@
 namespace App\Lib;
 
 use Exception;
-use \DateTime;
 
 class FactureLatex {
 
@@ -129,7 +128,6 @@ class FactureLatex {
 
   public function getLatexFileContents() {
       return $this->twig->render('invoice_tex.twig', ['idFacture' => $this->idFacture,
-                                                      'date' => $this->date,
                                                       'facture' => $this->facture,
                                                       'infosClient' => $this->infosClient,
                                                       'infosCompany' => $this->infosCompany,
@@ -166,10 +164,6 @@ class FactureLatex {
   public function getInfosClient(){
 
     return $infosClient;
-  }
-
-  public function setDate($date){
-    $this->date = DateTime::createFromFormat("Ymd",$date);
   }
 
   public function setJeancloudePath($jeancloude_path){
