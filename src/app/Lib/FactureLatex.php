@@ -37,7 +37,7 @@ class FactureLatex {
   }
 
   private function getLatexDestinationDir() {
-    if($path = $this->getJeancloudePath()){
+    if($path = $this->getOutputPath()){
       return $path;
     }
     return realpath(__DIR__.'/../../../out/pdf');
@@ -166,12 +166,12 @@ class FactureLatex {
     return $infosClient;
   }
 
-  public function setJeancloudePath($jeancloude_path){
-    $this->jeancloude_path = $jeancloude_path;
+  public function setOutputPath($outout_path){
+    $this->outout_path = $outout_path;
   }
 
-  public function getJeancloudePath(){
-    return $this->jeancloude_path;
+  public function getOutputPath(){
+    return $this->outout_path;
   }
 
 }

@@ -11,14 +11,12 @@ $filters = [];
 
 $save_dir = $config->get('save_dir');
 $file = $climate->arguments->get('file');
-$output_path = $climate->arguments->get('output_path');
-$jeancloude_path = $config->get('jeancloude_path');
+$output_path = $config->get('output_path');
+if($climate->arguments->get('output_path')) {
+    $output_path = $climate->arguments->get('output_path');
+}
 $excluded_clients = $config->get('excluded_clients');
 $names = ($climate->arguments->defined('names')) ? $climate->arguments->get('names') : null;
-
-if(!$output_path) {
-	$output_path = $jeancloude_path;
-}
 
 try {
     $csv = new Csv();
@@ -38,7 +36,7 @@ foreach ($factures as $idfacture => $facture) {
     $facturePdf->setInfosClient($clients->get($client));
     $facturePdf->setInfosCompany($config->get("company"));
     $facturePdf->setInfosExtra($config->get("extra"));
-    $facturePdf->setJeancloudePath($output_path);
+    $facturePdf->setOutputPath($output_path);
 
     $path = $facturePdf->getPDFFile();
     $climate->info('Nouvelle facture dans : ' . str_replace(" ","\ ",$path));
