@@ -13,6 +13,7 @@ class FactureLatex {
   private $infosCompany = array();
   private $infosExtra = array();
   private $twig = null;
+  private $output_path = '';
 
   const OUTPUT_TYPE_PDF = 'pdf';
   const OUTPUT_TYPE_LATEX = 'latex';
@@ -166,12 +167,12 @@ class FactureLatex {
     return $infosClient;
   }
 
-  public function setOutputPath($outout_path){
-    $this->outout_path = $outout_path;
+  public function setOutputPath($output_path){
+    $this->output_path = $output_path;
   }
 
   public function getOutputPath(){
-    return $this->outout_path;
+    return $this->output_path;
   }
 
 }
