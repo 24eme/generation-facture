@@ -2,6 +2,7 @@
 
 use App\Compactor;
 use App\Reader\Csv;
+use App\Lib\CsvFacture;
 use App\Lib\FactureLatex;
 
 require __DIR__ . '/../src/app/bootstrap.php';
@@ -23,6 +24,7 @@ try {
     $csv->setClients($names);
     $csv->setExcludedClients($excluded_clients);
     $factures = $csv->createArrayFrom($file);
+    $csvFactures = new CsvFacture();
 } catch (Exception $e) {
     $climate->to('error')->error($e->getMessage());
     exit;
@@ -40,4 +42,8 @@ foreach ($factures as $idfacture => $facture) {
 
     $path = $facturePdf->getPDFFile();
     $climate->info('Nouvelle facture dans : ' . str_replace(" ","\ ",$path));
+
+    $csvFactures->addFacture($idfacture, $facture);
 }
+
+echo $csvFactures->export();
