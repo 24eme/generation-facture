@@ -29,7 +29,7 @@ class FactureLatex {
     $fn = $this->getLatexFileName();
     $leFichier = fopen($fn, "w");
     if (!$leFichier) {
-      throw new sfException("Cannot write on ".$fn);
+      throw new \Exception("Cannot write on ".$fn);
     }
     fwrite($leFichier, $this->getLatexFileContents());
     fclose($leFichier);
@@ -78,7 +78,7 @@ class FactureLatex {
     //   return $filename;
     $tmpfile = $this->generatePDF();
     if (!file_exists($tmpfile)) {
-      throw new sfException("pdf not created :(");
+      throw new \Exception("pdf not created :(");
     }
     if (!rename($tmpfile, $filename)) {
       throw new Exception("not possible to rename $tmpfile to $filename");
@@ -146,7 +146,7 @@ class FactureLatex {
 
   public function getInfosCompany(){
 
-    return $infosCompany;
+    return $this->infosCompany;
   }
 
   public function setInfosExtra($infosExtra){
@@ -155,7 +155,7 @@ class FactureLatex {
 
   public function getInfosExtra(){
 
-    return $infosExtra;
+    return $this->infosExtra;
   }
 
   public function setInfosClient($infosClient){
@@ -164,7 +164,7 @@ class FactureLatex {
 
   public function getInfosClient(){
 
-    return $infosClient;
+    return $this->infosClient;
   }
 
   public function setOutputPath($output_path){
