@@ -17,8 +17,10 @@ class CsvFacture
 
     public function addFacture(int $numero, array $facture)
     {
+        $type = ($facture['total_ttc'] >= 0) ? 'FACTURE' : 'AVOIR';
+
         $this->csv->insertOne([
-            'FACTURE',
+            $type,
             $facture['date']->format('Y-m-d'),
             $numero,
             $facture['client'],
