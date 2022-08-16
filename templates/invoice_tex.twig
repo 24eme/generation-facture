@@ -35,6 +35,7 @@
 
 
 \def\LOGO{./templates/logo.png}
+\def\FACTURETYPE{ {{ (facture.total_ttc >= 0) ? 'FACTURE' : 'AVOIR' }} }
 \def\FACTUREDATE{ {{facture.date|date("d/m/Y")}} }
 \def\FACTUREDATEFR{ {{facture.date|format_date(pattern="d MMMM Y")}}}
 \def\FACTURERIB{ {{infosExtra.rib }} }
@@ -102,7 +103,7 @@ Code NAF :  \COMPANYNAF \\
 
 \flushright{\textbf{Le \FACTUREDATEFR,}}
 \vspace{1cm}
-\flushleft{\large{\textbf{FACTURE N° \FACTURENUMERO}}}
+\flushleft{\large{\textbf{\FACTURETYPE N° \FACTURENUMERO}}}
 \vspace{1cm}
 
 \renewcommand{\arraystretch}{1.5}
