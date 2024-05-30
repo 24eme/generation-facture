@@ -49,16 +49,17 @@ C'est dans ce fichier compacted.csv.5f28754215b226 que vous aller travailler pou
 Une fois le travail de remise en forme des données (attention à respecter vos numéros de facture) vous pouvez générer vos factures avec la commande suivante :
 
 ```sh
-php bin/generate.php <periode> <chemin_fichier_compacte>
+php bin/generate.php <chemin_fichier_csv> <chemin_dossier_sortie_pdf> [<chemin_dossier_sortie_mail>]
 ```
 
-`<periode>` doit être au format AAAAMMJJ autrement dit si la facturation est celle de juin 2020 : 20200630
+`<chemin_fichier_csv>` Chemin vers le fichier csv contenant les informations des factures à générer
 
-`<chemin_fichier_compacte>` est le chemin du fichier compacté qui a été retravaillé afin d'effectuer la facturation.
+`<chemin_dossier_sortie_pdf>` est le chemin vers le dossier dans lequel les pdf des factures vont être généré
+
+`<chemin_dossier_sortie_mail>` est le chemin vers le dossier dans lequel les template de mails vont être générés. (optionnel)
 
 Le resultat est le suivant :
 ```sh
 Nouvelle facture dans : /chemin-du-nextcloud/2020063000120_FactureNomDeVotreSociete_Client1.pdf
 Nouvelle facture dans : /chemin-du-nextcloud/2020063000121_FactureNomDeVotreSociete_Client2.pdf
 ```
-

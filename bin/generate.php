@@ -16,6 +16,10 @@ $output_path = $config->get('output_path');
 if($climate->arguments->get('output_path')) {
     $output_path = $climate->arguments->get('output_path');
 }
+$output_mailpath = null;
+if($climate->arguments->get('output_mailpath')) {
+    $output_mailpath = $climate->arguments->get('output_mailpath');
+}
 $excluded_clients = $config->get('excluded_clients');
 $names = ($climate->arguments->defined('names')) ? $climate->arguments->get('names') : null;
 
@@ -43,6 +47,11 @@ foreach ($factures as $idfacture => $facture) {
     $path = $facturePdf->getPDFFile();
     $climate->info('Nouvelle facture dans : ' . str_replace(" ","\ ",$path));
 
+    if($output_mailpath) {
+        $mailFilePath = $output_mailpath.DIRECTORY_SEPARATOR.$facturePdf->getFileNameWithoutExtention().'.eml';
+        file_put_contents($mailFilePath, $facturePdf->toMail());
+        $climate->info('Template mail : ' . $mailFilePath);
+    }
     $csvFactures->addFacture($idfacture, $facture);
 }
 

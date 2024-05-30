@@ -14,6 +14,10 @@ return [
             'output_path' => [
                 'required' => false,
                 'description' => 'Dossier de sortie'
+            ],
+            'output_mailpath' => [
+                'required' => false,
+                'description' => 'Dossier de sortie pour les mails'
             ]
         ],
         'download' => [

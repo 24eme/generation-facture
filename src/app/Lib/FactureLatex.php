@@ -117,7 +117,7 @@ class FactureLatex {
     return $this->getLatexFileNameWithoutExtention().'.tex';
   }
 
-  private function getFileNameWithoutExtention() {
+  public function getFileNameWithoutExtention() {
     return  $this->idFacture.'_Facture'.str_replace("è", "e", $this->infosCompany["name"]).'_'.str_replace(" ","",$this->infosClient["name"]);
   }
 
@@ -173,6 +173,16 @@ class FactureLatex {
 
   public function getOutputPath(){
     return $this->output_path;
+  }
+
+  public function toMail() {
+    return $this->twig->render('mail.twig', ['idFacture' => $this->idFacture,
+                                             'facture' => $this->facture,
+                                             'infosClient' => $this->infosClient,
+                                             'infosCompany' => $this->infosCompany,
+                                             'infosExtra' => $this->infosExtra,
+                                             'fileName' => $this->getPublicFileName(),
+                                             'base64Attachment' =>  base64_encode(file_get_contents($this->getLatexDestinationDir()."/".$this->getPublicFileName()))]);
   }
 
 }
