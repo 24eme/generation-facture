@@ -71,6 +71,19 @@
 \def\FACTURETOTALTVA{ {{facture.total_tva|number_format(2, ',', ' ')}} }
 \def\FACTURETOTALTTC{ {{facture.total_ttc|number_format(2, ',', ' ')}} }
 
+\pdfinfo{
+/facture:author ({% autoescape false %}{{ infosCompany.name|replace({'è':"\\`{e}",'à':"\\`a",'ù':"\\`u",'ë':'\\"e','é':"\\'e",'ê':"\\^e",'ô':"\\^o"})}}{% endautoescape %})
+/facture:devise (Euro)
+/facture:type (\FACTURETYPE)
+/facture:date ({{facture.date|date("Y-m-d")}})
+/facture:numero ({{idFacture }})
+/facture:id ({{idFacture }})
+/facture:client ({{infosClient.name|raw }})
+/facture:libelle ({% autoescape false %}{% for libelle,ligneFacture in facture.presta %}{{libelle|replace({'è':"\\`{e}",'à':"\\`a",'ù':"\\`u",'ë':'\\"e','é':"\\'e",'ê':"\\^e",'ô':"\\^o", '°':'o'}) }}{% endfor %}{% endautoescape %})
+/facture:HT ({{facture.total_ht}})
+/facture:TVA ({{facture.total_tva}})
+/facture:TTC ({{facture.total_ttc}})
+}
 
 \pagestyle{fancy}
 \pagenumbering{gobble}
