@@ -63,10 +63,16 @@ class Csv
             }
             $array[$numero_facture]['total_ht']+=$total_ht;
 	        $array[$numero_facture]['date'] = \DateTime::createFromFormat("Ymd",$record['Date facture']);
+
+            if(array_key_exists('Total TVA', $record) && trim($record['Total TVA']) !== "") {
+                $array[$numero_facture]['total_tva'] += $record['Total TVA'];
+            }
         }
 
         foreach ($array as $numero_facture => $facture) {
-          $facture['total_tva'] = 0.2 * $facture['total_ht'];
+          if(!array_key_exists('total_tva', $facture)) {
+              $facture['total_tva'] = 0.2 * $facture['total_ht'];
+          }
           $facture['total_ttc'] = $facture['total_ht']+$facture['total_tva'];
           $array[$numero_facture] = $facture;
         }
