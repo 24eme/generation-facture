@@ -135,6 +135,14 @@ class FactureLatex {
                                                       'infosExtra' => $this->infosExtra]);
   }
 
+  public function getFacturxXmlContents() {
+      return $this->twig->render('factur_x.twig', ['idFacture' => $this->idFacture,
+                                                      'facture' => $this->facture,
+                                                      'infosClient' => $this->infosClient,
+                                                      'infosCompany' => $this->infosCompany,
+                                                      'infosExtra' => $this->infosExtra]);
+  }
+
   public function getPublicFileName($extention = '.pdf') {
 
       return $this->getFileNameWithoutExtention().$extention;
